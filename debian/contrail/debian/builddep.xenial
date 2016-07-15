@@ -1,4 +1,5 @@
 	       dh-systemd,
+               libssl-dev,
 	       libboost-dev,
 	       libboost-chrono-dev,
 	       libboost-date-time-dev,
