@@ -45,7 +45,8 @@ source-all: source-package-contrail-web-core \
 	source-package-ifmap-server \
 	source-package-neutron-plugin-contrail \
 	source-package-ceilometer-plugin-contrail \
-	source-package-contrail-heat
+	source-package-contrail-heat \
+    source-package-contrail-vrouter-dpdk
 
 all: package-ifmap-server \
 	package-contrail-web-core \
@@ -54,7 +55,9 @@ all: package-ifmap-server \
 	package-neutron-plugin-contrail \
 	package-ceilometer-plugin-contrail \
 	package-contrail-heat \
-	$(CONTRAIL_VROUTER_DPDK)
+        package-ifmap-server \
+        package-ifmap-python-client \
+        package-contrail-vrouter-dpdk
 
 package-ifmap-server: clean-ifmap-server debian-ifmap-server
 	$(eval PACKAGE := $(patsubst package-%,%,$@))
@@ -171,6 +174,14 @@ source-package-contrail: clean-contrail debian-contrail
 			sed -i '/DIRS_SERIES/d' $(dir_fname)); )
 	(cd vrouter; git clean -f -d)
 	tar zcf build/packages/contrail_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
+	@echo "Building source package $(PACKAGE)"
+	(cd build/packages/$(PACKAGE); dpkg-buildpackage -S -d -rfakeroot $(KEYOPT))
+
+source-package-contrail-vrouter-dpdk: clean-contrail-vrouter-dpdk debian-contrail-vrouter-dpdk
+	$(eval PACKAGE := contrail-vrouter-dpdk)
+	sed -i 's/VERSION/$(CONTRAIL_VERSION)/g' build/packages/$(PACKAGE)/debian/changelog
+	sed -i 's/SERIES/$(SERIES)/g' build/packages/$(PACKAGE)/debian/changelog
+	tar zcf build/packages/$(PACKAGE)_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
 	@echo "Building source package $(PACKAGE)"
 	(cd build/packages/$(PACKAGE); dpkg-buildpackage -S -d -rfakeroot $(KEYOPT))
 
