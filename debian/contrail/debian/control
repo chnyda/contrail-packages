@@ -418,3 +418,51 @@ Depends: dpkg-dev,
          ${python:Depends},
          ${shlibs:Depends}
 Description: OpenContrail database integration
+
+Package: contrail-kube-manager
+Architecture: amd64
+Depends: python-requests,
+         python-gevent,
+         python-contrail (>= ${source:Version}),
+         ${misc:Depends},
+         ${python:Depends}
+Description: OpenContrail kubernetes network manager
+ Kubernetes network manager interacts with the kubernetes API server to
+ receive information about resources and create corresponding OpenContrail
+ resources.
+
+Package: contrail-mesos-manager
+Architecture: amd64
+Depends: python-requests,
+         python-gevent,
+         python-contrail (>= ${source:Version}),
+         ${misc:Depends},
+         ${python:Depends}
+Description: OpenContrail mesos network manager
+ Mesos network manager interacts with the mesos CNI plugin to
+ receive information about resources and create corresponding OpenContrail
+ resources.
+ .
+ This package contains the mesos management module that interfaces
+ with OpenContrail.
+
+Package: contrail-kube-cni
+Architecture: amd64
+Depends: ${misc:Depends},
+         ${python:Depends}
+Description: OpenContrail kubernetes cni plugin
+ Kubernetes opencontrail cni plugin for adding network support for pods.
+ .
+ This package contains the kubernetes cni plugin that interfaces
+ with OpenContrail.
+
+
+Package: contrail-cni
+Architecture: amd64
+Depends: ${misc:Depends},
+         ${python:Depends}
+Description: OpenContrail mesos/kubernetes cni plugin
+ Mesos/Kubernetes opencontrail cni plugin for adding network support for pods.
+ .
+ This package contains the mesos/kubernetes cni plugin that interfaces
+ with OpenContrail.
