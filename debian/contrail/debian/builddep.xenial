@@ -17,3 +17,4 @@
 	       libxml2-dev,
 	       libicu-dev,
                linux-headers-generic,
+               dh-systemd,
