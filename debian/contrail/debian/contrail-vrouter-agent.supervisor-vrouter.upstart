@@ -15,7 +15,9 @@ respawn
 respawn limit 10 90
 
 pre-start script
-    if [ -f /usr/lib/contrail/bin/vrouter-pre-start.sh ]; then
+    if [ -f /usr/lib/contrail/bin/vrouter-dpdk-pre-start.sh ]; then
+        /usr/lib/contrail/bin/vrouter-dpdk-pre-start.sh
+    elif [ -f /usr/lib/contrail/bin/vrouter-pre-start.sh ]; then
         /usr/lib/contrail/bin/vrouter-pre-start.sh
     fi
     ulimit -s unlimited
