@@ -5,5 +5,4 @@ usr/bin/contrail-rndc-confgen
 etc/contrail/dns/contrail-rndc.conf
 etc/contrail/dns/contrail-named.conf
 etc/contrail/dns/COPYRIGHT
-etc/contrail/dns/applynamedconfig.py
 INSTALL_SERIES
