@@ -99,7 +99,7 @@ _dpdk_conf_read() {
 
     ## global vRouter/DPDK configuration
     DPDK_BINDING_DRIVER_DATA='/var/run/vrouter'
-    DPDK_BIND="/opt/contrail/bin/dpdk_nic_bind.py"
+    DPDK_BIND="/usr/lib/contrail/bin/dpdk_nic_bind.py"
     DPDK_RTE_CONFIG="/run/.rte_config"
     VROUTER_SERVICE="supervisor-vrouter"
     AGENT_CONF="${CONFIG}"
