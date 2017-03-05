@@ -1,2 +1,3 @@
 etc/contrail/contrail-vrouter-nodemgr.conf
+etc/contrail/supervisord_vrouter.conf
 lib/systemd/system/supervisor-vrouter.service
