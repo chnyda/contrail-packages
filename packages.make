@@ -188,7 +188,7 @@ source-ifmap-server:
 source-package-ifmap-server: clean-ifmap-server debian-ifmap-server source-ifmap-server
 	$(eval PACKAGE := ifmap-server)
 	(cd build/packages/$(PACKAGE); sed -i 's/SERIES/$(SERIES)/g' debian/changelog)
-	(cd build/packages/$(PACKAGE); dpkg-buildpackage -S -d -rfakeroot $(KEYOPT))
+	(cd build/packages/$(PACKAGE); dpkg-buildpackage -sa -S -d -rfakeroot $(KEYOPT))
 
 package-neutron-plugin-contrail: debian-neutron-plugin-contrail
 	$(eval PACKAGE = neutron-plugin-contrail)
