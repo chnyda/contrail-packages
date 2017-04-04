@@ -533,7 +533,7 @@ vrouter_dpdk_if_unbind() {
     echo "$(date): Re-initialize networking."
     for iface in $(ifquery --list);
     do
-        if ifquery $iface | grep -i "bond";
+        if ifquery $iface | grep -i "bond" | grep -i "bond-master";
         then
             ifdown $iface
          fi
