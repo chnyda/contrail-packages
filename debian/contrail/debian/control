@@ -41,7 +41,6 @@ Build-Depends: autoconf,
                libsasl2-dev,
                cassandra-cpp-driver,
                cassandra-cpp-driver-dev,
-               libzookeeper-mt-dev,
                liburcu-dev,
                libopenmpi-dev,
                BUILDDEP_SERIES
@@ -490,4 +489,3 @@ Description: OpenContrail mesos cni plugin
  .
  This package contains the mesos cni plugin that interfaces
  with OpenContrail.
-
