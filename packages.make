@@ -85,12 +85,12 @@ source-package-contrail-web-core: clean-contrail-web-core debian-contrail-web-co
 	@echo "Building source package $(PACKAGE)"
 	(cd build/packages/$(PACKAGE); sed -i 's/VERSION/$(WEBUI_CORE_VERSION)/g' debian/changelog)
 	(cd build/packages/$(PACKAGE); sed -i 's/SERIES/$(SERIES)/g' debian/changelog)
-	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CORE_VERSION).orig.tar.gz contrail-web-core contrail-webui-third-party
+	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CORE_VERSION).orig.tar.gz contrail-web-core contrail-webui-third-party controller tools
 	(cd build/packages/$(PACKAGE); dpkg-buildpackage -j$(JOBS) -S -d -rfakeroot $(KEYOPT))
 
 source-contrail-web-controller: fetch-webui-third-party
 	$(eval PACKAGE := $(patsubst source-%,%,$@))
-	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CONTROLLER_VERSION).orig.tar.gz contrail-web-controller contrail-web-core contrail-webui-third-party
+	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CONTROLLER_VERSION).orig.tar.gz contrail-web-controller contrail-web-core contrail-webui-third-party controller tools
 
 package-contrail-web-controller: clean-contrail-web-controller debian-contrail-web-controller source-contrail-web-controller
 	$(eval PACKAGE := $(patsubst package-%,%,$@))
