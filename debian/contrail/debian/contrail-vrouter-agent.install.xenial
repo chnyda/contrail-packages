@@ -1,0 +1,4 @@
+etc/contrail/contrail-vrouter-nodemgr.conf
+etc/contrail/supervisord_vrouter.conf
+etc/contrail/supervisord_vrouter_files/contrail-vrouter-agent.ini
+lib/systemd/system/supervisor-vrouter.service
