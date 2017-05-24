@@ -423,6 +423,7 @@ Depends: dpkg-dev,
          ${misc:Depends},
          ${python:Depends},
          ${shlibs:Depends}
+Provides: contrail-database-common
 Description: OpenContrail database integration
 
 Package: contrail-kube-manager
