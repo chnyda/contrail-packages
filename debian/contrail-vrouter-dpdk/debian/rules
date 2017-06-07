@@ -10,10 +10,16 @@ KVERS := $(shell basename `ls -d /lib/modules/*|tail -1`)
 KERNELDIR := /lib/modules/$(KVERS)/build
 
 USER ?= root
+SERIES := $(shell lsb_release -c)
+ifeq (,$(findstring trusty,$(SERIES)))
+	DH_WITH=--with systemd
+else
+	DH_WITH=
+endif
 
 
 %:
-	dh $@
+	dh $@ $(DH_WITH)
 
 override_dh_auto_build:
 	(cd ${SB_TOP}; KERNELDIR=$(KERNELDIR) RTE_KERNELDIR=$(KERNELDIR) USER=$(USER) scons --opt=production --optimization=production --root=${INSTALL_ROOT} --kernel-dir=$(KERNELDIR) vrouter/dpdk)
