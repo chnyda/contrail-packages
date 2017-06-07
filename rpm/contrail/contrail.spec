@@ -343,6 +343,8 @@ This package provides the contrail-vrouter user space agent.
 %{_bindir}/contrail-tor-agent
 %{_bindir}/vrouter-port-control
 %{_bindir}/contrail-compute-setup
+%{_bindir}/contrail-toragent-setup
+%{_bindir}/contrail-toragent-cleanup
 %{_bindir}/contrail-vrouter-agent-health-check.py
 %config(noreplace) %{_contrailetc}/contrail-vrouter-agent.conf
 %config(noreplace) %{_contrailetc}/supervisord_vrouter.conf
@@ -500,6 +502,7 @@ Configuration nodes keep a persistent copy of the intended configuration state a
 %config(noreplace) %{_sysconfdir}/contrail/contrail-api.conf
 %config(noreplace) %{_sysconfdir}/contrail/contrail-schema.conf
 %config(noreplace) %{_sysconfdir}/contrail/contrail-device-manager.conf
+%config(noreplace) %{_sysconfdir}/contrail/contrail-config-nodemgr.conf
 %defattr(-,root,root,-)
 %{_bindir}/contrail-api
 %{_bindir}/contrail-schema
@@ -521,10 +524,12 @@ Configuration nodes keep a persistent copy of the intended configuration state a
 /etc/contrail/supervisord_config_files/contrail-config.rules
 /etc/contrail/supervisord_config_files/contrail-schema.ini
 /etc/contrail/supervisord_config_files/contrail-device-manager.ini
+/etc/contrail/supervisord_config_files/contrail-config-nodemgr.ini
 /etc/init.d/contrail-schema
 /etc/init.d/contrail-device-manager
 /etc/init.d/contrail-api
 /etc/init.d/supervisor-config
+/etc/init.d/contrail-config-nodemgr
 
 %pre config
 set -e
@@ -545,6 +550,7 @@ chmod +x /etc/init.d/contrail-api
 chmod +x /etc/init.d/contrail-schema
 chmod +x /etc/init.d/contrail-device-manager
 chmod +x /etc/init.d/supervisor-config
+chmod +x /etc/init.d/contrail-config-nodemgr
 
 %package analytics
 Summary:            Contrail Analytics
@@ -553,7 +559,7 @@ Group:              Applications/System
 Requires:           xmltodict >= 0.7.0
 Requires:           contrail-lib >= %{_verstr}-%{_relstr}
 Requires:           python-pycassa
-Requires:           redis-py > 0.1-2contrail
+Requires:           python-redis >= 2.10.0
 Requires:           redis >= 2.6.13-1
 Requires:           python-contrail >= %{_verstr}-%{_relstr}
 Requires:           python-psutil >= 0.6.0
@@ -623,6 +629,7 @@ Analytics nodes collect, store, correlate, and analyze information from
 /etc/init.d/contrail-snmp-collector
 /etc/init.d/contrail-topology
 /usr/share/mibs/netsnmp
+/etc/contrail/snmp.conf
 
 %pre analytics
 set -e
