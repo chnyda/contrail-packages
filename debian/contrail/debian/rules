@@ -14,7 +14,7 @@ VER := $(shell lsb_release -c)
 KVERS := $(shell basename `ls -d /lib/modules/*|tail -1`)
 KERNELDIR := /lib/modules/$(KVERS)/build
 ifeq (,$(findstring precise,$(VER)))
-        SUBSTVARS = -Vdist:Depends="python-cassandra-driver  (>= 3.0.0)"
+        SUBSTVARS = -Vdist:Depends="python-cassandra  (>= 3.0.0)"
         DH_WITH=python2,systemd
 else
         DH_WITH=python2
