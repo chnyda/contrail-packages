@@ -185,6 +185,25 @@ source-package-contrail-vrouter-dpdk: clean-contrail-vrouter-dpdk debian-contrai
 	sed -i '/BUILDDEP_SERIES/d' build/packages/$(PACKAGE)/debian/control
 	tar zcf build/packages/$(PACKAGE)_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
 	@echo "Building source package $(PACKAGE)"
+	$(foreach series_fname, $(CONTRAIL_INSTALL_SERIES), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/r $(series_fname)' $(patsubst %.$(SERIES),%,$(series_fname))); )
+	$(eval CONTRAIL_INSTALL := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install'))
+	$(foreach install_fname, $(CONTRAIL_INSTALL), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/d' $(install_fname)); )
+	# Append series specific dirs
+	$(eval CONTRAIL_DIRS_SERIES := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.dirs.$(SERIES)'))
+	$(foreach series_dirname, $(CONTRAIL_DIRS_SERIES), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/DIRS_SERIES/r $(series_dirname)' $(patsubst %.$(SERIES),%,$(series_dirname))); )
+	$(eval CONTRAIL_DIRS := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.dirs'))
+	$(foreach dir_fname, $(CONTRAIL_DIRS), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/DIRS_SERIES/d' $(dir_fname)); )
+	(cd vrouter; git clean -f -d)
+	tar zcf build/packages/contrail_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
+	@echo "Building source package $(PACKAGE)"
 	(cd build/packages/$(PACKAGE); dpkg-buildpackage -S -d -rfakeroot $(KEYOPT))
 
 source-ifmap-server:
