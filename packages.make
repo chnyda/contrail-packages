@@ -202,7 +202,7 @@ source-package-contrail-vrouter-dpdk: clean-contrail-vrouter-dpdk debian-contrai
 			(cd build/packages/$(PACKAGE)/debian;\
 			sed -i '/DIRS_SERIES/d' $(dir_fname)); )
 	(cd vrouter; git clean -f -d)
-	tar zcf build/packages/contrail_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
+	tar zcf build/packages/$(PACKAGE)_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
 	@echo "Building source package $(PACKAGE)"
 	(cd build/packages/$(PACKAGE); dpkg-buildpackage -S -d -rfakeroot $(KEYOPT))
 
