@@ -430,6 +430,7 @@ Package: contrail-kube-manager
 Architecture: amd64
 Depends: python-requests,
          python-gevent,
+         python-bitstring,
          python-contrail (>= ${source:Version}),
          ${misc:Depends},
          ${python:Depends}
