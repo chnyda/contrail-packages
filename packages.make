@@ -152,8 +152,10 @@ source-package-contrail: clean-contrail debian-contrail
 	# Append series specific depends
 	(cd build/packages/$(PACKAGE)/debian; sed -i '/SUPERVISORDEP_SERIES/r supervisordep.$(SERIES)' control)
 	sed -i '/SUPERVISORDEP_SERIES/d' build/packages/$(PACKAGE)/debian/control
-	(cd build/packages/$(PACKAGE)/debian; sed -i '/NODEMGRDEP_SERIES/r builddep.$(SERIES)' control)
+	(cd build/packages/$(PACKAGE)/debian; sed -i '/NODEMGRDEP_SERIES/r nodemgrdep.$(SERIES)' control)
 	sed -i '/NODEMGRDEP_SERIES/d' build/packages/$(PACKAGE)/debian/control
+	(cd build/packages/$(PACKAGE)/debian; sed -i '/VROUTERDEP_SERIES/r vrouterdep.$(SERIES)' control)
+	sed -i '/VROUTERDEP_SERIES/d' build/packages/$(PACKAGE)/debian/control
 	# Append series specific install files
 	$(eval CONTRAIL_INSTALL_SERIES := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install.$(SERIES)'))
 	$(foreach series_fname, $(CONTRAIL_INSTALL_SERIES), \

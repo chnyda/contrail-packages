@@ -248,6 +248,7 @@ Depends: adduser,
          contrail-lib (>= ${binary:Version}),
          contrail-vrouter,
          supervisor,
+         VROUTERDEP_SERIES
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: contrail-nodemgr (>= ${source:Version}),
