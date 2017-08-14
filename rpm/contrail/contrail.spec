@@ -70,6 +70,7 @@ BuildRequires:  cassandra-cpp-driver
 BuildRequires:  cassandra-cpp-driver-devel
 BuildRequires:  libzookeeper-devel
 BuildRequires:  librdkafka-devel >= 0.9.0
+BuildRequires:  grok-devel
 
 %prep
 
@@ -120,6 +121,15 @@ install -p -m 755 %{_distrorpmpkgdir}/supervisor-config.initd  %{buildroot}/etc/
 install -p -m 755 %{_distrorpmpkgdir}/supervisor-analytics.initd  %{buildroot}/etc/init.d/supervisor-analytics
 install -p -m 755 %{_distrorpmpkgdir}/supervisor-vrouter.initd  %{buildroot}/etc/init.d/supervisor-vrouter
 popd
+
+#Needed for agent container env
+# install vrouter.ko at /opt/contrail/vrouter-kernel-modules to use with containers
+for vrouter_ko in $(ls -1 %{buildroot}/lib/modules/*/extra/net/vrouter/vrouter.ko); do
+  build_root=$(echo %{buildroot})
+  kernel_ver=$(echo ${vrouter_ko#${build_root}/lib/modules/} | awk -F / '{print $1}')
+  install -d -m 755 %{buildroot}/%{_contrailutils}/../vrouter-kernel-modules/$kernel_ver/
+  install -p -m 755 $vrouter_ko %{buildroot}/%{_contrailutils}/../vrouter-kernel-modules/$kernel_ver/vrouter.ko
+done
 
 #Needed for vrouter-dkms
 install -d -m 755 %{buildroot}/usr/src/vrouter-%{_verstr}
@@ -225,6 +235,7 @@ exit 0
 %files vrouter
 %defattr(-, root, root)
 /lib/modules/*/extra/net/vrouter/vrouter.ko
+/opt/contrail/vrouter-kernel-modules/*/vrouter.ko
 
 %package vrouter-source
 Summary:            Contrail vRouter
@@ -348,6 +359,7 @@ configure and diagnose the OpenContrail Linux kernel module.
 %{_bindir}/vrouter
 %{_bindir}/vrmemstats
 %{_bindir}/qosmap
+%{_bindir}/vifdump
 
 %package vrouter-agent
 
@@ -377,6 +389,7 @@ package provides the contrail-vrouter user space agent.
 %config(noreplace) %{_contrailetc}/contrail-vrouter-agent.conf
 %config(noreplace) %{_contrailetc}/supervisord_vrouter.conf
 /etc/init.d/contrail-vrouter-agent
+/etc/init.d/contrail-vrouter-nodemgr
 %config(noreplace) /etc/contrail/supervisord_vrouter_files/contrail-vrouter-agent.ini
 /etc/init.d/supervisor-vrouter
 %{python_sitelib}/contrail_vrouter_provisioning*
@@ -400,6 +413,7 @@ chmod 0750 /etc/contrail/ /etc/contrail/ssl/ /etc/contrail/ssl/certs/
 chmod 0700 /etc/contrail/ssl/private/
 chmod 0750 /var/lib/contrail/dhcp/
 chmod +x /etc/init.d/contrail-vrouter-agent
+chmod +x /etc/init.d/contrail-vrouter-nodemgr
 chmod +x /etc/init.d/supervisor-vrouter
 
 %package control
@@ -639,6 +653,7 @@ Requires:           python-stevedore
 Requires:           python-kazoo >= 1.3.1
 Requires:           python-sseclient
 Requires:           python-amqp
+Requires:           grok
 %if 0%{?rhel} >= 7
 Requires:           python-cassandra-driver >= 3.0.0
 %endif
