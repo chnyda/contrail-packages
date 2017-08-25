@@ -183,6 +183,8 @@ source-package-contrail-vrouter-dpdk: clean-contrail-vrouter-dpdk debian-contrai
 	$(eval PACKAGE := contrail-vrouter-dpdk)
 	sed -i 's/VERSION/$(CONTRAIL_VERSION)/g' build/packages/$(PACKAGE)/debian/changelog
 	sed -i 's/SERIES/$(SERIES)/g' build/packages/$(PACKAGE)/debian/changelog
+	(cd build/packages/$(PACKAGE)/debian; sed -i '/BUILDDEP_SERIES/r builddep.$(SERIES)' control)
+	sed -i '/BUILDDEP_SERIES/d' build/packages/$(PACKAGE)/debian/control
 	tar zcf build/packages/$(PACKAGE)_$(CONTRAIL_VERSION).orig.tar.gz $(SOURCE_CONTRAIL_ARCHIVE)
 	@echo "Building source package $(PACKAGE)"
 	$(foreach series_fname, $(CONTRAIL_INSTALL_SERIES), \
