@@ -26,6 +26,7 @@ if [ "$1" = "configure" ]; then
   chown -R contrail:adm /var/log/contrail
   chmod 0750 /var/log/contrail
   chown -R contrail. /var/lib/contrail/ /etc/contrail/
+  chown -R cassandra /var/lib/cassandra /var/log/cassandra
   chmod 0750 /etc/contrail/
 
   if [ -e "/usr/sbin/cassandra" ]; then
