@@ -45,6 +45,7 @@ Build-Depends: autoconf,
                libopenmpi-dev,
                libzookeeper-mt-dev,
                libgrok-dev,
+               libpcre3-dev,
                BUILDDEP_SERIES
 
 Package: contrail-analytics
