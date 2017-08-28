@@ -46,6 +46,10 @@ Build-Depends: autoconf,
                libzookeeper-mt-dev,
                libgrok-dev,
                libpcre3-dev,
+               libevent-dev,
+               gperf,
+               libtokyocabinet-dev,
+               ctags,
                BUILDDEP_SERIES
 
 Package: contrail-analytics
