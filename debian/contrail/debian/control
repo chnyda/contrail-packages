@@ -45,6 +45,12 @@ Build-Depends: autoconf,
                liburcu-dev,
                libopenmpi-dev,
                liblz4-dev,
+               libgrok1,
+               libpcre3-dev,
+               libevent-dev,
+               gperf,
+               libtokyocabinet-dev,
+               ctags,
                BUILDDEP_SERIES
 
 Package: contrail-analytics
