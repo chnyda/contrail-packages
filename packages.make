@@ -83,6 +83,14 @@ package-contrail-web-core: clean-contrail-web-core debian-contrail-web-core fetc
 source-package-contrail-web-core: clean-contrail-web-core debian-contrail-web-core fetch-webui-third-party
 	$(eval PACKAGE := $(patsubst source-package-%,%,$@))
 	@echo "Building source package $(PACKAGE)"
+	$(eval CONTRAIL_INSTALL_SERIES := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install.$(SERIES)'))
+	$(foreach series_fname, $(CONTRAIL_INSTALL_SERIES), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/r $(series_fname)' $(patsubst %.$(SERIES),%,$(series_fname))); )
+	$(eval CONTRAIL_INSTALL := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install'))
+	$(foreach install_fname, $(CONTRAIL_INSTALL), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/d' $(install_fname)); )
 	(cd build/packages/$(PACKAGE); sed -i 's/VERSION/$(WEBUI_CORE_VERSION)/g' debian/changelog)
 	(cd build/packages/$(PACKAGE); sed -i 's/SERIES/$(SERIES)/g' debian/changelog)
 	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CORE_VERSION).orig.tar.gz contrail-web-core contrail-webui-third-party
@@ -90,6 +98,14 @@ source-package-contrail-web-core: clean-contrail-web-core debian-contrail-web-co
 
 source-contrail-web-controller: fetch-webui-third-party
 	$(eval PACKAGE := $(patsubst source-%,%,$@))
+	$(eval CONTRAIL_INSTALL_SERIES := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install.$(SERIES)'))
+	$(foreach series_fname, $(CONTRAIL_INSTALL_SERIES), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/r $(series_fname)' $(patsubst %.$(SERIES),%,$(series_fname))); )
+	$(eval CONTRAIL_INSTALL := $(shell cd build/packages/$(PACKAGE)/debian; find . -name '*.install'))
+	$(foreach install_fname, $(CONTRAIL_INSTALL), \
+			(cd build/packages/$(PACKAGE)/debian;\
+			sed -i '/INSTALL_SERIES/d' $(install_fname)); )
 	tar zcf build/packages/$(PACKAGE)_$(WEBUI_CONTROLLER_VERSION).orig.tar.gz contrail-web-controller contrail-web-core contrail-webui-third-party
 
 package-contrail-web-controller: clean-contrail-web-controller debian-contrail-web-controller source-contrail-web-controller
